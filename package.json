@@ -1,0 +1,121 @@
+{
+	"name": "angular-file-help",
+	"displayName": "Angular File Help",
+	"description": "Angular文件创建工具",
+	"version": "0.0.1",
+	"publisher": "SunRising",
+	"icon": "asset/logo.png",
+	"repository": "https://github.com/SunRisingChang/angular-file-help.git",
+	"engines": {
+		"vscode": "^1.46.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./src/extension.js",
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Angular File Help",
+			"properties": {
+				"angularComponent.styleType": {
+					"type": "string",
+					"default": "less",
+					"description": "使用的样式库，以便生成准确的样式文件"
+				},
+				"angularTest.creatTestFile": {
+					"type": "boolean",
+					"default": true,
+					"description": "是否创建测试文件"
+				},
+				"addAngularPage.show": {
+					"type": "boolean",
+					"default": false,
+					"description": "是否显示 Generate Page 菜单"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.addAngularPage",
+				"title": "Generate Page"
+			},
+			{
+				"command": "extension.addAngularComponent",
+				"title": "Generate Component"
+			},
+			{
+				"command": "extension.addAngularDirective",
+				"title": "Generate Directive"
+			},
+			{
+				"command": "extension.addAngularPipe",
+				"title": "Generate Pipe"
+			},
+			{
+				"command": "extension.addAngularService",
+				"title": "Generate Service"
+			},
+			{
+				"command": "extension.addAngularRoute",
+				"title": "Generate Route"
+			},
+			{
+				"command": "extension.addAngularModule",
+				"title": "Generate Module"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "config.addAngularPage.show",
+					"command": "extension.addAngularPage",
+					"group": "z_commands@1"
+				},
+				{
+					"command": "extension.addAngularComponent",
+					"group": "z_commands@2"
+				},
+				{
+					"command": "extension.addAngularDirective",
+					"group": "z_commands@3"
+				},
+				{
+					"command": "extension.addAngularPipe",
+					"group": "z_commands@4"
+				},
+				{
+					"command": "extension.addAngularService",
+					"group": "z_commands@5"
+				},
+				{
+					"command": "extension.addAngularRoute",
+					"group": "z_commands@6"
+				},
+				{
+					"command": "extension.addAngularModule",
+					"group": "z_commands@7"
+				}
+			]
+		}
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.46.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	}
+}
