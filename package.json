@@ -2,7 +2,7 @@
 	"name": "angular-file-help",
 	"displayName": "Angular File Help",
 	"description": "Angular文件创建工具",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "SunRising",
 	"icon": "asset/logo.png",
 	"repository": "https://github.com/SunRisingChang/angular-file-help.git",

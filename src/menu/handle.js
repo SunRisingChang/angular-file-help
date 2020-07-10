@@ -77,6 +77,17 @@ async function getFileInfo(agrs, command) {
         return;
     }
 
+    // 选择路由挂载方式
+    let routeMountType;
+    if (name === 'route') {
+        routeMountType = await vscode.window.showQuickPick(["forRoot", "forChild"], {
+            ignoreFocusOut: true,
+            matchOnDescription: true,
+            matchOnDetail: true,
+            placeHolder: '请选择挂载方式'
+        })
+    }
+
     if (name === 'component' || name === 'module' || name === 'page') {
         // 输出文件夹
         folderPath = folderPath + '/' + inputStr;
@@ -84,17 +95,18 @@ async function getFileInfo(agrs, command) {
     }
 
     // 驼峰命名
-    const UpperInputStr = toUpperCaseObjName(inputStr)
+    const upperInputStr = toUpperCaseObjName(inputStr)
 
     return {
         folderPath,
         inputStr,
-        UpperInputStr
+        upperInputStr,
+        routeMountType
     }
 }
 
 // 写入文件
-async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr }, isPage) {
+async function writeTmplToFile(command, { folderPath, inputStr, upperInputStr, routeMountType }, isPage) {
     // 获取配置属性
     const styleType = vscode.workspace.getConfiguration().get('angularComponent.styleType');
     // 获取配置属性
@@ -115,7 +127,7 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取ts模板 写入文件
         let tsContent = resolveTmpl(getTemplateStr(`${pagePath}component.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.component.ts`, tsContent)
 
@@ -123,14 +135,14 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取spec模板 写入文件
         let specContent = resolveTmpl(getTemplateStr(`${pagePath}component.spec.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.component.spec.ts`, specContent)
     }
     if (command === "extension.addAngularDirective") {
         // 获取模板 写入文件
         let directiveContent = resolveTmpl(getTemplateStr(`${pagePath}directive.ts`), {
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.directive.ts`, directiveContent)
 
@@ -138,7 +150,7 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取spec模板 写入文件
         let specContent = resolveTmpl(getTemplateStr(`${pagePath}directive.spec.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.directive.spec.ts`, specContent)
     }
@@ -146,7 +158,7 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取模板 写入文件
         let pipeContent = resolveTmpl(getTemplateStr(`${pagePath}pipe.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.pipe.ts`, pipeContent)
 
@@ -154,14 +166,14 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取spec模板 写入文件
         let specContent = resolveTmpl(getTemplateStr(`${pagePath}pipe.spec.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.pipe.spec.ts`, specContent)
     }
     if (command === "extension.addAngularService") {
         // 获取模板 写入文件
         let serviceContent = resolveTmpl(getTemplateStr(`${pagePath}service.ts`), {
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.service.ts`, serviceContent)
 
@@ -169,27 +181,28 @@ async function writeTmplToFile(command, { folderPath, inputStr, UpperInputStr },
         // 获取spec模板 写入文件
         let specContent = resolveTmpl(getTemplateStr(`${pagePath}service.spec.ts`), {
             Name: inputStr,
-            UpperName: UpperInputStr
+            UpperName: upperInputStr
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.service.spec.ts`, specContent)
     }
     if (command === "extension.addAngularRoute") {
         // 获取模板 写入文件
         let routeContent = resolveTmpl(getTemplateStr(`${pagePath}route.ts`), {
-            UpperName: UpperInputStr
+            UpperName: upperInputStr,
+            MountType: routeMountType
         })
         fs.writeFileSync(`${folderPath}/${inputStr}-routing.module.ts`, routeContent)
     }
     if (command === "extension.addAngularModule") {
         // 获取模板 写入文件
         let moduleContent = resolveTmpl(getTemplateStr(`${pagePath}module.ts`), {
-            UpperName: UpperInputStr,
+            UpperName: upperInputStr,
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.module.ts`, moduleContent)
     }
 }
 
-// 添加组件
+// 添加文件
 async function addAngularFileHandle(agrs, command) {
     let fileInfo = await getFileInfo(agrs, command);
     if (fileInfo)
