@@ -23,7 +23,9 @@ function resolveTmpl(tmplStr, params) {
     let paramsKeys = Object.keys(params);
     for (const tmplPar of tmplParArry) {
         for (const key of paramsKeys) {
-            if (tmplPar.includes(key))
+            // 提取模板中的key
+            let tmpl_key = tmplPar.replace(/[\$\{\}]/g, "").trim()
+            if (tmpl_key == key)
                 tmplStr = tmplStr.replace(tmplPar, params[key])
         }
     }
@@ -188,6 +190,7 @@ async function writeTmplToFile(command, { folderPath, inputStr, upperInputStr, r
     if (command === "extension.addAngularRoute") {
         // 获取模板 写入文件
         let routeContent = resolveTmpl(getTemplateStr(`${pagePath}route.ts`), {
+            Name: inputStr,
             UpperName: upperInputStr,
             MountType: routeMountType
         })
@@ -196,6 +199,7 @@ async function writeTmplToFile(command, { folderPath, inputStr, upperInputStr, r
     if (command === "extension.addAngularModule") {
         // 获取模板 写入文件
         let moduleContent = resolveTmpl(getTemplateStr(`${pagePath}module.ts`), {
+            Name: inputStr,
             UpperName: upperInputStr,
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.module.ts`, moduleContent)
