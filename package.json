@@ -2,7 +2,7 @@
 	"name": "angular-file-help",
 	"displayName": "Angular File Help",
 	"description": "Angular文件创建工具",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"publisher": "SunRising",
 	"icon": "asset/logo.png",
 	"repository": "https://github.com/SunRisingChang/angular-file-help.git",
@@ -19,7 +19,8 @@
 	"scripts": {
 		"lint": "eslint .",
 		"pretest": "npm run lint",
-		"test": "node ./test/runTest.js"
+		"test": "node ./test/runTest.js",
+		"build": "vsce package"
 	},
 	"contributes": {
 		"configuration": {
@@ -28,7 +29,7 @@
 			"properties": {
 				"angularComponent.styleType": {
 					"type": "string",
-					"default": "less",
+					"default": "css",
 					"description": "使用的样式库，以便生成准确的样式文件"
 				},
 				"angularTest.creatTestFile": {

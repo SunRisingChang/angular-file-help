@@ -129,7 +129,8 @@ async function writeTmplToFile(command, { folderPath, inputStr, upperInputStr, r
         // 获取ts模板 写入文件
         let tsContent = resolveTmpl(getTemplateStr(`${pagePath}component.ts`), {
             Name: inputStr,
-            UpperName: upperInputStr
+            UpperName: upperInputStr,
+            StyleType: styleType
         })
         fs.writeFileSync(`${folderPath}/${inputStr}.component.ts`, tsContent)
 
