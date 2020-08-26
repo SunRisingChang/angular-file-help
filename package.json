@@ -2,7 +2,7 @@
 	"name": "angular-file-help",
 	"displayName": "Angular File Help",
 	"description": "Angular文件创建工具",
-	"version": "0.0.5",
+	"version": "0.1.0",
 	"publisher": "SunRising",
 	"icon": "asset/logo.png",
 	"repository": "https://github.com/SunRisingChang/angular-file-help.git",
@@ -29,7 +29,7 @@
 			"properties": {
 				"angularComponent.styleType": {
 					"type": "string",
-					"default": "css",
+					"default": "less",
 					"description": "使用的样式库，以便生成准确的样式文件"
 				},
 				"angularTest.creatTestFile": {
